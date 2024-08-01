@@ -15,9 +15,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
-      name: "SharedComponentLibrary",
+      name: "SharedLibrary",
       formats: ["es"],
-      fileName: (format) => `my-component-library.${format}.js`,
+      fileName: (format) => `shared-library.${format}.js`,
     },
     rollupOptions: {
       input: {
