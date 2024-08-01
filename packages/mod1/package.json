@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mod2": "*"
+    "shared": "*"
   },
   "devDependencies": {
     "ts-loader": "^9.5.1",
