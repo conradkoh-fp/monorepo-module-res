@@ -1,3 +1,2 @@
-export * from "./components";
-export * from "./utils";
-export * from "./lib";
+export * as Buttom from "./components/Button";
+export * as translation from "./utils/translation";
