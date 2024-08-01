@@ -60,6 +60,9 @@ importers:
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
+      typescript-declaration-webpack-plugin:
+        specifier: ^0.3.0
+        version: 0.3.0
       webpack:
         specifier: ^5.93.0
         version: 5.93.0(webpack-cli@5.1.4)
@@ -2456,6 +2459,10 @@ packages:
     dependencies:
       media-typer: 0.3.0
       mime-types: 2.1.35
+    dev: true
+
+  /typescript-declaration-webpack-plugin@0.3.0:
+    resolution: {integrity: sha512-oXW+noTApAkXwfknX98tvaL38Uj9sy52PqN1fa1O4xQeGzt9DJ4VPpf/dhh9ykok1PrTDcMEeEocqfEx0pqHoA==}
     dev: true
 
   /typescript@5.5.4:

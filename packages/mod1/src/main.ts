@@ -1,4 +1,4 @@
-import { libfunc } from "shared/src/lib/test";
+import { libfunc } from "mod2/dist";
 
 export function main() {
   const val = libfunc();

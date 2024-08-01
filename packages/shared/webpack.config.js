@@ -1,24 +1,24 @@
 const path = require("path");
 const fs = require("fs");
 const TerserPlugin = require("terser-webpack-plugin");
+const TypescriptDeclarationPlugin = require("typescript-declaration-webpack-plugin");
 
 // Function to generate entry points dynamically
-const generateEntries = (baseDir) => {
+const generateEntries = (baseDir, relativeDir = "") => {
   const entries = {};
 
   // Helper function to add entries recursively
   const addEntries = (dir, prefix = "") => {
     fs.readdirSync(dir).forEach((file) => {
       const fullPath = path.join(dir, file);
-      const entryName = prefix ? `${prefix}/${file}` : file;
+      const entryName = path.join(prefix, file);
 
       if (fs.statSync(fullPath).isDirectory()) {
         // If it's a directory, recurse into it
         addEntries(fullPath, entryName);
       } else if (/^index\.(ts|tsx)$/i.test(file)) {
         // Improved regex to match index.ts or index.tsx files (case-insensitive)
-        const entryKey = entryName.replace(/\/index\.(ts|tsx)$/i, "");
-        entries[entryKey] = fullPath;
+        entries[path.join(relativeDir, prefix)] = fullPath;
       }
     });
   };
@@ -28,9 +28,9 @@ const generateEntries = (baseDir) => {
   return entries;
 };
 
-// Define base directories for components and lib
+// Define base directories for components and utils
 const componentsDir = path.resolve(__dirname, "src/components");
-const libDir = path.resolve(__dirname, "src/lib");
+const utilsDir = path.resolve(__dirname, "src/utils");
 
 // Generate externals from peerDependencies in package.json
 const peerDependencies = require("./package.json").peerDependencies;
@@ -43,10 +43,10 @@ module.exports = (env, argv) => {
   const isDevelopment = argv.mode === "development";
 
   return {
-    // Dynamically generate entry points for components and lib
+    // Dynamically generate entry points for components and utils
     entry: {
-      ...generateEntries(componentsDir),
-      ...generateEntries(libDir),
+      ...generateEntries(componentsDir, "components"),
+      ...generateEntries(utilsDir, "utils"),
       index: "./src/index.ts", // Main entry point
     },
     output: {
@@ -69,13 +69,13 @@ module.exports = (env, argv) => {
         },
       ],
     },
-    plugins: [],
+    plugins: [new TypescriptDeclarationPlugin({})],
     optimization: {
       minimize: !isDevelopment, // Minimize in production mode
       minimizer: [new TerserPlugin()],
-      splitChunks: {
-        chunks: "all", // Enable code splitting for all chunks
-      },
+      // splitChunks: {
+      //   chunks: "all", // Enable code splitting for all chunks
+      // },
     },
     devServer: {
       static: path.join(__dirname, "dist"), // Serve files from dist directory
@@ -85,7 +85,7 @@ module.exports = (env, argv) => {
       open: true, // Open the browser after server had been started
       watchFiles: ["src/**/*"], // Watch for changes in the src directory
     },
-    devtool: isDevelopment ? "source-map" : false, // Use source maps in development mode
+    devtool: isDevelopment ? "inline-source-map" : false, // Use source maps in development mode
     experiments: {
       outputModule: true, // Enable the `module` output target for ESM
     },
