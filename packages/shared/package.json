@@ -2,13 +2,13 @@
   "name": "shared",
   "version": "1.0.0",
   "description": "A shared component library for the monorepo",
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && vite build",
-    "build:dev": "webpack --mode development",
-    "start": "webpack serve --mode development"
+    "dev": "vite build --watch",
+    "build": "rm -rf dist && vite build"
   },
   "peerDependencies": {
     "react": "^17.0.0",
