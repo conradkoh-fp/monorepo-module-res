@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 export function TranslationProvider() {
   // TODO: Implement this
 }
@@ -7,5 +8,11 @@ export function useTranslation() {
 }
 
 export function test() {
-  return "test";
+  const users = [
+    { name: "Alice", hobbies: ["reading", "hiking"] },
+    { name: "Bob", hobbies: ["cooking", "gaming"] },
+  ];
+
+  const hobbies = _.flatMap(users, (user) => user.hobbies);
+  return hobbies;
 }
