@@ -1,16 +1,12 @@
 # Shared Component Library
-## Vite
-### Q: Why use Vite instead of Webpack?
-Because it just got working faster, with less configuration, to achieve the following criteria
-1. Allow imports from the root of the package like `import { ... } from 'shared'
-2. Allow imports from a sub-folder like `import translations from 'shared/dist/utils/translations'
-3. Emit type delcarations + jump to source
-4. Multiple entry points
-5. Dev mode (rebuild when files are changed)
+## No Build
+### Q: Why not use a builder for the shared library
+1. Use only typescript as the source
+2. Probably easier time with HMR (assumed)
 
-I believe the same would have been possible with Webpack eventually. Here are some reasons why Vite is probably a good choice.
-1. Reduces complexity - less configuration and has a dedicated library mode
-2. Better Developer Experience
-    - Vite uses esbuild for the dev server, which is known to be very fast
-    - Is able to use optimisations because it supports primarily ES Modules - which enables lazy loading of dependencies
-    - Generally better HMR because of native ESM imports
+There are some challenges using no build
+1. Ensure proper module resolution rather than hacks by referencing source files
+    - Solution: Do not use ts-loader in webpack, since ts-loader has issues resolving files
+        - This may require some work on the one-web side to get working, but may overall yield benefits
+2. Configuring the tsconfig.json to ensure that ts files can be imported (set the `module` and `moduleResolution` properties to `ESNext` and `Bundler` respectively)
+    - We need to research more on what the differences between the options are

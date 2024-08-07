@@ -1,2 +1,2 @@
-export * as Buttom from "./components/Button";
+export * as Button from "./components/Button";
 export * as translation from "./utils/translation";
